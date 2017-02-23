@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>reveal.js - The HTML Presentation Framework</title>
+
+    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+    <meta name="author" content="Hakim El Hattab">
+
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/beatles.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+
+
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+<div class="reveal">
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+        <div id="section_title"></div>
+        <!--<BR/><BR/><BR/><BR/><BR/><BR/><h1>Introduction</h1>-->
+        <section id="start" data-background-image="images/blank-box.png" data-background-size="contain">
+            <blockquote>
+                <ul>
+                    <li data-fragment-index="1"><a href="#history-analysis">Background</a></li>
+                    <li data-fragment-index="1"><a href="#peak-analysis">Chart Records</a></li>
+                    <li data-fragment-index="1"><a href="#popularity-analysis">Popularity</a></li>
+                    <li data-fragment-index="1"><a href="#tour-analysis">Tour Analysis</a></li>
+                    <li data-fragment-index="1"><a href="#beat-analysis">Musicality: Beat</a></li>
+                    <li data-fragment-index="1"><a href="#segment-analysis">Musicality: Segment</a></li>
+                    <li data-fragment-index="1"><a href="#key-analysis">Musicality: key</a></li>
+                    <li data-fragment-index="1"><a href="#vocals-analysis">Musicality: vocals</a></li>
+                    <li data-fragment-index="1"><a href="#complexity-analysis">Lyric Complexity Analysis</a></li>
+                    <li data-fragment-index="1"><a href="#sentiment-analysis">Lyric Sentiment Analysis</a></li>
+                    <li data-fragment-index="1"><a href="#emotion-analysis">Lyric Emotion Analysis</a></li>
+                    <li data-fragment-index="1"><a href="#summary">Summary</a></li>
+                </ul>
+            </blockquote>
+        </section>
+        <section id="history-analysis">
+            <section data-background-image="images/blank-box.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px;" data-fragment-index="1" data-autoslide="1500">"What's talent?"</p>
+                    <p style="font-size:30px;" data-fragment-index="2" data-autoslide="1500" class="fragment">"I don't know. Are you born with it?"</p>
+                    <p style="font-size:30px;" data-fragment-index="3" data-autoslide="1500" class="fragment">"Do you discover you have it later on?"</p>
+                    <p style="font-size:30px;" data-fragment-index="4" data-autoslide="1500" class="fragment">"The basic talent is believing you can do something."</p>
+                    <p style="font-size:30px;" data-fragment-index="5" data-autoslide="5000" class="fragment">-- John Lennon</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/blank-box.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px;" data-autoslide="1500">The Beatles dominated the popular music scene throughout the 1960's</p>
+                    <p style="font-size:30px;" data-fragment-index="1" data-autoslide="1500" class="fragment">This decade can be described in 4 eras.</p>
+                    <p style="font-size:30px;" data-fragment-index="2" data-autoslide="1500" class="fragment">"The Early Years"</p>
+                    <p style="font-size:30px;" data-fragment-index="3" data-autoslide="1500" class="fragment">"Beatlemania"</p>
+                    <p style="font-size:30px;" data-fragment-index="4" data-autoslide="1500" class="fragment">"The Experimental Years"</p>
+                    <p style="font-size:30px;" data-fragment-index="5" data-autoslide="5000" class="fragment">"The Final Years"</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/history/first-meet.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:40px">In the "Early Years":</p>
+                    <p style="font-size:30px;" data-fragment-index="1" data-autoslide="1500" class="fragment">The Quarrymen become The Beatles</p>
+                    <p style="font-size:30px;" data-fragment-index="2" data-autoslide="1500" class="fragment">Perform long tours in Hamburg, Germany</p>
+                    <p style="font-size:30px;" data-fragment-index="3" data-autoslide="1500" class="fragment">Use Amphetamines to play high energy back to back sets</p>
+                    <p style="font-size:30px;" data-fragment-index="4" data-autoslide="1500" class="fragment">Sign their first record deal with EMI.</p>
+                    <p style="font-size:30px;" data-fragment-index="5" data-autoslide="5000" class="fragment">Achieve multiple number one hits.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/history/first-meet.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">"At Woolton village fete I met him. I was a fat schoolboy and, as he leaned an arm on my shoulder, I realized he was drunk. We were twelve then, but, in spite of his sideboards, we went on to become teenage pals."</p>
+                    <p style="font-size:30px;" data-fragment-index="3" data-autoslide="5000" class="fragment">-- Paul McCartney (regarding the night he met John Lennon)</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/history/first-meet.png" data-background-size="contain"></section>
+            <section data-background-image="images/history/beatlemania.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:40px">In the "Beatlemania" years:</p>
+                    <p style="font-size:30px;" data-fragment-index="1" data-autoslide="1500" class="fragment">Non stop world wide touring.</p>
+                    <p style="font-size:30px;" data-fragment-index="2" data-autoslide="1500" class="fragment">Never have any privacy.</p>
+                    <p style="font-size:30px;" data-fragment-index="3" data-autoslide="1500" class="fragment">Begin experimenting with mild drugs.</p>
+                    <p style="font-size:30px;" data-fragment-index="4" data-autoslide="5000" class="fragment">Gain experience as musicians and song writers.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/history/beatlemania.png" data-background-size="contain"></section>
+
+            <section data-background-image="images/history/beatlemania.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">"On tour that year, it was crazy. Not within the band. In the band we were normal, and the rest of the world was crazy."</p>
+                    <p style="font-size:30px;" data-fragment-index="3" data-autoslide="5000" class="fragment">-- George Harrison</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/history/beatlemania.png" data-background-size="contain"></section>
+            <section data-background-image="images/history/experimental.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:40px">In the "Experimental Years":</p>
+                    <p style="font-size:30px;" data-fragment-index="1" data-autoslide="1500" class="fragment">World tours provided widespread external musical influences.</p>
+                    <p style="font-size:30px;" data-fragment-index="2" data-autoslide="1500" class="fragment">Experimented with musicality and lyrics.</p>
+                    <p style="font-size:30px;" data-fragment-index="3" data-autoslide="1500" class="fragment">Preferred studio recording over live performance.</p>
+                    <p style="font-size:30px;" data-fragment-index="4" data-autoslide="1500" class="fragment">Regular use of drugs, most notably LSD.</p>
+                    <p style="font-size:30px;" data-fragment-index="5" data-autoslide="5000" class="fragment">Made music videos instead of performing on television.</p>
+                </blockquote>
+            </section>
+
+            <section data-background-image="images/history/experimental.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">"After I took [LSD], it opened my eyes and made me a better, more honest, more tolerant member of society"</p>
+                    <p style="font-size:30px;" data-fragment-index="3" data-autoslide="5000" class="fragment"> -- Paul McCartney </p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/history/experimental.png" data-background-size="contain"></section>
+            <section data-background-image="images/history/final-years.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:40px">In the "Final Years":</p>
+                    <p style="font-size:30px;" data-fragment-index="1" data-autoslide="1500" class="fragment">Took a spiritual trip to India.</p>
+                    <p style="font-size:30px;" data-fragment-index="2" data-autoslide="1500" class="fragment">Denounced taking drugs.</p>
+                    <p style="font-size:30px;" data-fragment-index="3" data-autoslide="5000" class="fragment">Stopped performing live.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/history/final-years.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">"We're not learning ot be architects, or painters or writers."</p>
+                    <p style="font-size:30px;" data-fragment-index="1" data-autoslide="1500" class="fragment">"We're learning to be. That's all."</p>
+                    <p style="font-size:30px;" data-fragment-index="2" data-autoslide="5000" class="fragment"> -- Paul McCartney </p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/history/final-years.png" data-background-size="contain"></section>
+        </section>
+        <section id="peak-analysis">
+            <section data-background-image="images/blank-box.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">Across the globe the Beatles hit the top music charts.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/peak/1963.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:25px">Beatles began their No. 1 peak positions in the place where they started, the UK.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/peak/1963.png" data-background-size="contain"></section>
+            <section data-background-image="images/peak/1965.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:25px">Australia and United States jump into The Beatles’ phenomenon with No. 1 album rankings along with UK and Germany.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/peak/1965.png" data-background-size="contain"></section>
+            <section data-background-image="images/peak/1968.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:25px">In France’s opinion, the Beatles were becoming worthy of No. 1 album rankings during this time period.</p>
+                    <p style="font-size:25px; " data-fragment-index="1" data-autoslide="5000" class="fragment">Although America was very satisfied, Magical Mystery Tour was the first album that the band                         did not hit the charts with in their home country, United Kingdom. </p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/peak/1968.png" data-background-size="contain"></section>
+            <section data-background-image="images/peak/1970.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:25px" data-autoslide="1500" >Canada decided the Beatles were allowed on their top music charts as well.</p>
+                    <p style="font-size:25px;" data-fragment-index="1" data-autoslide="5000" class="fragment">Abbey Road ranked No. 1 across every major player in the Beatles fan base of countries.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/peak/1970.png" data-background-size="contain"></section>
+        </section>
+        <section id="popularity-analysis" data-background-transition="none">
+            <!--<BR/><br/><h2 id="song_title"></h2>-->
+            <section data-background-image="images/maps/total-sales.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">The Beatles had over 30 singles that hit charts in at least 3 countries.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/maps/total-sales.png" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1963-FromMeToYou.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">Beatles song “From Me to You” in 1963 was one of the first examples of this newly flourishing band.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/maps/1963-FromMeToYou.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1964-SheLoveYou.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">It didn’t take long for the United States to become The Beatles’ biggest fans.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/maps/1964-SheLoveYou.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1964-IWantToHoldYourHand.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1964-AllMyLoving.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1964-CantBuyMeLove.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1964-TwistAndShout.png"  data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">By 1964 and 1965, with a surplus of hit singles, the Beatles truly are a worldwide sensation.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/maps/1964-TwistAndShout.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1964-HardDaysNight.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1964-IFeelFine.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1965-TicketToRide.png"  data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">Especially in America, they became unofficial representatives of the social movements of the time.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/maps/1965-TicketToRide.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1965-Help.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1965-Yesterday.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1965-DayTripper.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1966-Michelle.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1966-PaperBackWriter.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1966-ElanorRigby.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1966-YellowSubmarine.png"  data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">In 1966 and 1967, singles such as “Yellow Submarine” and “All You Need is Love” proved that the Beatles could sustain lovable music way beyond the initial spark of popularity. The band was so used to coming out with Number 1 hits, there was a small dose of disappointment if they hit anything less.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/maps/1966-YellowSubmarine.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1967-StrawberryFieldsForever.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1967-PennyLane.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1967-AllWeNeedIsLove.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1967-HelloGoodbye.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1967-MagicalMysteryTour.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1968-LadyMadonna.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1968-HeyJude.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1969-ObLaDi.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px"> Even when the internal band member dynamics were stressed, the popularity of The Beatles did not flinch throughout the world.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/maps/1969-ObLaDi.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1969-GetBack.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1969-BalladOfYokoAndJohn.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1969-ComeTogether.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1969-Something.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1970-LetItBe.png" data-autoslide="1500" data-background-size="contain"></section>
+            <section data-background-image="images/maps/1970-TheLongAndWindingRoad.png" data-autoslide="1500" data-background-size="contain"></section>
+        </section>
+        <section id="tour-analysis">
+            <section data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px" data-fragment-index="1" data-autoslide="1500">The Beatles toured relentlessly in the early years.</p>
+                    <p style="font-size:30px" data-fragment-index="2" data-autoslide="1500" class="fragment">They started in Hamburg Germany.</p>
+                    <p style="font-size:30px" data-fragment-index="3" data-autoslide="1500" class="fragment">Every Corner of the United Kingdom.</p>
+                    <p style="font-size:30px" data-fragment-index="4" data-autoslide="1500" class="fragment">Then eventually across the globe.</p>
+                    <p style="font-size:30px" data-fragment-index="5" data-autoslide="5000" class="fragment">In the end, they burned out and never toured to support their last few albums.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/sets-played/1963.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px" data-autoslide="1500">The Beatles performed a total of 743 sets between 1960-1962</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="5000">An average of 4.8 sets a week.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/sets-played/1963.png" data-background-size="contain">
+            </section>
+            <section data-background-image="images/sets-played/1965.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px" data-autoslide="1500">They played over 1000 sets between 1963-1964.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1"> An average of 9.3 sets a week!</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/sets-played/1965.png" data-background-size="contain"></section>
+            <section data-background-image="images/sets-played/1968.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px" data-autoslide="1500">Only 120 shows were played between 1965-1967</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="1500">While the shows were much bigger,</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="5000">Their shows dropped to only 3.3 per month!</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/sets-played/1968.png" data-background-size="contain"> </section>
+            <section data-background-image="images/sets-played/1970.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px" data-autoslide="1500">The Beatles only performed 2 times during their final years.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="5000">Still adverse to touring, their final public performance was played on a rooftop in downtown London.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/sets-played/1970.png" data-background-size="contain">
+            </section>
+            <section data-background-image="images/sets-played/rooftop.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">"There was a plan to play live somewhere. We were wondering where we could go?</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="3" data-autoslide="1500">'Oh, the Palladium or the Sahara.' But we would have had to take all the stuff,</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="4" data-autoslide="1500">so we decided, 'Let's get up on the roof'"</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="5" data-autoslide="5000"> -- George Harrison</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/sets-played/rooftop.png" data-background-size="contain">
+            </section>
+        </section>
+        <section id="beat-analysis">
+            <section data-background-image="images/blank-box.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px;">Beats Per Minute is a metric that measures the speed of a song. </p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/beats-per-minute/1963.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">Most of their songs are very quick paced</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/beats-per-minute/1963.png" data-background-size="contain"></section>
+            <section data-background-image="images/beats-per-minute/1965.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">Songs continue to be mostly quick paced, but have more slow songs mixed
+                        into 1965 than in the Early Years</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/beats-per-minute/1965.png" data-background-size="contain"></section>
+            <section data-background-image="images/beats-per-minute/1968.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">The pace of their songs begin to slow down overall</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/beats-per-minute/1968.png" data-background-size="contain"></section>
+            <section data-background-image="images/beats-per-minute/1970.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">The pace of their songs continue at a slower pace.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="5000">However, more quick songs are sprinkled in than in the Later Years..</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/beats-per-minute/1970.png" data-background-size="contain"></section>
+            <section data-background-image="images/beats-per-minute/all.png" data-background-size="contain"></section>
+        </section>
+        <section id="segment-analysis">
+            <section data-background-image="images/song-segment/intro.png" data-background-size="contain"></section>
+            <section data-background-image="images/song-segment/1963.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px" data-autoslide="1500">The band spends most of their song time in Verses,</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="5000">the segment of a song that drives the story</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/song-segment/1963.png" data-background-size="contain"></section>
+            <section data-background-image="images/song-segment/1965.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px" data-autoslide="1500">The band continues their story telling in Verses.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/song-segment/1965.png" data-background-size="contain"></section>
+            <section data-background-image="images/song-segment/1968.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px" data-autoslide="1500">More time is spent on the Refrain than ever before.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="1500">This is the phrase of lyrics in a song that is repeated over and over like:</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="1500">"We all live in a yellow submarine".</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="3" data-autoslide="5000">Outros also get longer than ever before.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/song-segment/1968.png" data-background-size="contain"></section>
+            <section data-background-image="images/song-segment/1970.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px"> The band gets back to their roots with more time spent in Verses as they tell the final stories.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/song-segment/1970.png" data-background-size="contain"></section>
+            <section data-background-image="images/song-segment/all.png" data-background-size="contain"> </section>
+        </section>
+
+        
+        <section id="key-analysis">
+            <section data-background-image="images/blank-box.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px;">The musical key comes from the interval of notes used in the chords that make up a song.</p>
+                    <p style="font-size:30px;" class="fragment" data-fragment-index="1" data-autoslide="5000"> A minor key has a smaller interval of notes and often sounds sadder and darker than a major key. </p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/song-key/1963.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">Most of their songs are written in a major key</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/song-key/1963.png" data-background-size="contain"></section>
+            <section data-background-image="images/song-key/1965.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px" data-autoslide="1500">Two of their albums do not use a minor key at all,</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="5000"> but there is an increase in the other two albums from this era.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/song-key/1965.png" data-background-size="contain"></section>
+            <section data-background-image="images/song-key/1968.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">The band's use of minor key continues to increase until Magical Mystery Tour where major takes over again.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/song-key/1968.png" data-background-size="contain">
+            </section>
+            <section data-background-image="images/song-key/1970.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px" data-autoslide="1500">Their final albums have quite a swing between major and minor keys, </p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="5000">Abbey Road having the most minor songs of any album so far.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/song-key/1970.png" data-background-size="contain"></section>
+            <section data-background-image="images/song-key/all.png" data-background-size="contain"></section>
+        </section>
+
+
+
+        <section id="vocals-analysis">
+            <section data-background-image="images/songs-vocalist/all.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px;"> John Lennon and Paul McCartney generally share most of the vocals across all the albums.</p>
+                    <p style="font-size:30px;" class="fragment" data-fragment-index="1" data-autoslide="1500">We see some variation over time with George Harrison’s vocals.</p>
+                    <p style="font-size:30px;" class="fragment" data-fragment-index="1" data-autoslide="5000">Each album usually has one song with Ringo’s lead vocals.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/songs-vocalist/all.png" data-background-size="contain"></section>
+        </section>
+        <section id="complexity-analysis" >
+            <section data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">One measure of lyrical complexity is syllable counts.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="1500">Measuring the average syllables in lyrics per album reveals a trend.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="3" data-autoslide="1500">As they became more experienced songwriters, their lyrical complexity grew.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="4" data-autoslide="1500">The peak of complex songwriting is The Beatles (White Album).</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="5" data-autoslide="1500">Their final years show a decline in complexity.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="5" data-autoslide="5000">A possible reflection of the troubles they began having with each other.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/complexity/1963.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">The early years reveal young song writers.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/complexity/1963.png" data-background-size="contain"></section>
+            <section data-background-image="images/complexity/1965.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">The Beatlemania years show a slight complexity increase.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/complexity/1965.png" data-background-size="contain"></section>
+            <section data-background-image="images/complexity/1968.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px">During their experimental years, they demonstrate a strong increase in
+                        complex songwriting, as the move away form live performance and invest more energy into
+                        songwriting.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/complexity/1968.png" data-background-size="contain"></section>
+            <section data-background-image="images/complexity/1970.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">While giving up touring, they return back to simpler lyric compositions.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="1500">Musical progress?</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="5000">Or an indication that their discontent was reflected in their songwriting?</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/complexity/1970.png" data-background-size="contain"></section>
+        </section>
+        <section id="sentiment-analysis">
+            <section>
+                <blockquote>
+                    <p style="font-size:30px">All You Need Is Love</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/sentiment/1963.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">Beatlemania's Lyrical Power</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="1500">The Beatles' lyrics pack a lot of love and joy with some sadness.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="3" data-autoslide="5000">The size of each word is mapped to its maximum deviation.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/sentiment/1963.png" data-background-size="contain"></section>
+            <section data-background-image="images/sentiment/1965.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">Experimental Beatles Keep Joyful Lyrics Constant</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="1500">The Beatles experiment with drugs and their music but their lyrics continue to be mostly joyful.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="3" data-autoslide="1500">However, there is a 4% decrease in joyful lyrics.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="4" data-autoslide="5000">The size of each word is mapped to its maximum deviation.</p>
+
+                </blockquote>
+            </section>
+            <section data-background-image="images/sentiment/1965.png" data-background-size="contain"></section>
+            <section data-background-image="images/sentiment/1968.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">Meditative Beatles</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="1500">The Beatles deliver 5% less joy in their lyrics during their calm, Meditative Period.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="3" data-autoslide="1500">However, their lyrics do contain more sadness than their Experimental Period.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="4" data-autoslide="5000">The size of each word is mapped to its maximum deviation.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/sentiment/1968.png" data-background-size="contain"></section>
+            <section data-background-image="images/sentiment/1970.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px">The Breakup</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="1500">A 5% increase in lyrical sadness occurred while the Beatles were slowly breaking up and leaving fans broken-hearted.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="3" data-autoslide="1500">After their meditative state, The Beatles' lyrical picks were 3% more joyful.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="4" data-autoslide="5000">The size of each word is mapped to its maximum deviation. </p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/sentiment/1970.png" data-background-size="contain"></section>
+        </section>
+        <section id="emotion-analysis">
+
+            <section data-background-image="images/blank-box.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px;">The lyrics written for each era were analyzed for emotional bias.</p>
+                    <p style="font-size:30px;" class="fragment" data-fragment-index="1" data-autoslide="5000">Finding the percentage of emotion per era.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/emotion/1963.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px;">The "Early Years" show their songwriting dominated by joy.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/emotion/1963.png" data-background-size="contain"></section>
+            <section data-background-image="images/emotion/1965.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px;">During "Beatlemania", their lyrics include more diverse emotions.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/emotion/1965.png" data-background-size="contain"></section>
+            <section data-background-image="images/emotion/1968.png" data-background-size="contain">
+                <blockquote>
+                    <p style="font-size:30px;">Their "Experimental Years" show the most diverse emotions of all era's.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/emotion/1968.png" data-background-size="contain"></section>
+            <section data-background-image="images/emotion/1970.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px;">The "Later Years" show a growing sadness...</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="1500">And less diversity...</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="1500">A return to their roots?</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="3" data-autoslide="5000">Or a sign they were done being "The Beatles"?</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/emotion/1970.png" data-background-size="contain"></section>
+        </section>
+        <section id="summary">
+            <section data-background-image="images/blank-box.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px;">The Beatles left a lasting mark on musical and cultural history:</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="1500">1.6 billion singles sold in the US</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="1500">600 million albums sold worldwide.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="3" data-autoslide="5000">Wrote and recorded 229 original songs.</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/blank-box.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <p style="font-size:30px;">The world also left a lasting mark on the Beatles.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="1" data-autoslide="1500">They grew as songwriters and musicians through the years.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="2" data-autoslide="1500">They experimented, influenced by, and influencing the world.</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="3" data-autoslide="1500">These internal changes are shown through,</p>
+                    <p style="font-size:30px" class="fragment" data-fragment-index="4" data-autoslide="5000">Musicality, Complexity, and Sentiment</p>
+                </blockquote>
+            </section>
+            <section data-background-image="images/blank-box.png" data-background-size="contain" data-autoslide="1500">
+                <blockquote>
+                    <ul>
+                        <li style="list-style-type: none; font-size:40px;">Credits:</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="1" data-autoslide="500">Background/History: Neva Hein, Jeremy Fergus </li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="2" data-autoslide="500">Chart Records: Neva Hein</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="3" data-autoslide="500">Popularity: Neva Hein</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="4" data-autoslide="500">Tour Analysis: Jon Carlisle</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="5" data-autoslide="500">Musicality (Beat): Allison Knepler</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="6" data-autoslide="500">Musicality (Segment): Allison Knepler</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="7" data-autoslide="500">Musicality (Key): Allison Knepler</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="8" data-autoslide="500">Musicality (Vocals): Allison Knepler</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="9" data-autoslide="500">Lyric Complexity: Jeremy Fergus</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="10" data-autoslide="500">Lyric Sentiment: Jon Carlisle</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="11" data-autoslide="500">Lyric Emotion: Jeremy Fergus</li>
+                    </ul>
+                </blockquote>
+                <blockquote>
+                    <ul>
+                        <li style="list-style-type: none; font-size:40px;">Data Sources:</li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="12" data-autoslide="500"><a href="http://lyrics.wikia.com/Lyrics_Wiki">Lyrics Datasets</a></li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="13" data-autoslide="500"><a href="http://isophonics.net/content/reference-annotations-beatles">Isophonics Datasets</a></li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="14" data-autoslide="500"><a href="http://tsort.info/music/6hsv00.htm">Chart Records</a></li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="15" data-autoslide="500"><a href="http://en.wikipedia.org/wiki/The_Beatles">Chart Records</a></li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="16" data-autoslide="500"><a href="http://www.statisticbrain.com/the-beatles-total-album-sales/">Album Sales</a></li>
+                        <li style="list-style-type: none;"  class="fragment" data-fragment-index="17" data-autoslide="500"><a href="http://www.setlist.fm/stats/the-beatles-23d6a88b.html">Tour Statistics</a></li>
+                    </ul>
+                </blockquote>
+            </section>
+
+        </section>
+    </div>
+
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+
+	
+			function setBackground(event){
+
+				titleString = "";
+		    	imageUrls =  " url(images/background.jpg);"
+
+				switch(event.indexh) {
+					case 0:
+						titleString = 'The Beatles Show';
+						break;
+					case 1:
+						titleString = 'Background';
+						break;
+					case 2:
+						titleString = 'Chart Records';
+						break;
+					case 3:
+						titleString = 'Hit Singles';
+						break;
+					case 4:
+					    switch(event.indexv) {
+					        case 0:
+						        titleString = 'Sets Played';
+						        break;
+						    default:
+						        titleString = '';
+						}
+						break;
+					case 5:
+						titleString = 'Musicality: Beat';
+						break;
+					case 6:
+						titleString = 'Musicality: Segment';
+						break;
+					case 7:
+						titleString = 'Musicality: Key';
+						break;
+					case 8:
+						titleString = 'Musicality: Vocalist';
+						break;
+					case 9:
+						titleString = 'Complexity';
+						break;
+					case 10:
+					    switch(event.indexv) {
+					        case 0:
+						        titleString = 'Sentiment';
+						        break;
+						    default:
+						        titleString = '';
+						}
+						break;
+					case 11:
+						titleString = 'Emotion';
+						break;
+					case 12:
+						titleString = 'Summary';
+						break;
+					default:
+						titleString = "TODO: create section title";
+				}
+
+			//	imageUrls = imageUrls+", url(images/"+event.indexh+"-"+event.indexv+".png) ;";
+				// for debugging the show, add the coordinates after the title
+		//		titleString += "&nbsp;&nbsp;<span style=\"font-size:20px\">("+event.indexh+":"+event.indexv+")</span>";
+
+				titleString = "<h1>" + titleString + "</h1>";
+				document.getElementById('section_title').innerHTML  = titleString
+			//	document.getElementsByClassName('slide-background present')[0].setAttribute("style","display: block; background-image: " + imageUrls + " background-size: contain");
+
+			}
+
+			function setSongTitle(titleString){
+				switch(event.indexh) {
+					case 2:
+					    switch(event.indexv){
+
+                            case 0:
+                                titleString = 'Song Titles Will Go Here';
+                                break;
+                            case 1:
+                            case 2:
+                                titleString = '[1963] From Me to You';
+                                break;
+                            case 3:
+                                titleString = '[1964] She Loves You';
+                                break;
+                            case 4:
+                                titleString = '[1964] I Want to Hold Your Hand';
+                                break;
+                            case 5:
+                            case 6:
+                            default:
+                                titleString = 'TODO: Missing song title';
+                        }
+                        break;
+                     default:
+                        titleString = ''
+
+
+				}
+				document.getElementById('song_title').innerText  = titleString
+			}
+
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: false,
+				slideNumber: true,
+				center: true,
+			    width: 1920,
+			    height: 1080,
+			    autoSlide: 5000,
+				audioPrefix: 'audio/',        // audio files are stored in the "audio" folder
+				audioSuffix: '.ogg',          // audio files have the ".ogg" ending
+				audioDefaultDuration: 5, // default duration if no audio is available
+				audioPlayerOpacity: 0.05,     // opacity value of audio player if unfocused
+
+				transition: 'convex', // none/fade/slide/convex/concave/zoom
+				backgroundTransition: 'none',
+
+
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+
+				]
+			});
+
+
+			Reveal.addEventListener( 'ready', function( event ) {
+				setBackground(event);
+			} );
+
+			Reveal.addEventListener( 'slidechanged', function( event ) {
+				setBackground(event);
+			} );
+
+			<!--Reveal.addEventListener( 'slidechanged', function( event ) {-->
+				<!--setSongTitle(event);-->
+			<!--} );-->
+
+
+
+
+</script>
+
+</body>
+</html>
