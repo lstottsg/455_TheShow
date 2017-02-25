@@ -1,0 +1,39 @@
+The objective of the paper we are modeling as indicated in our Team Checkpoint B is: explain the impact of AirBnB rentals on local tourist communities.
+The paper indicates that AirBnB cannot expand further without destroying local communities.
+The paper utilizes data in a number of ways to prove this point.
+
+Modeling the paper, I think we can utilize our data sets in two ways to draw important conclusions.
+
+1) ANALYSIS. How many hosts have more than one listing?
+This would indicate that the AirBnB rentals are not just families providing rooms in their own homes for rent,
+but commercial actors who are buying up properties in order to make a profit using AirBnB.
+
+Visualization set 1: Use our data sets for Barcelona, London, Paris (let's just choose three) to determine how many
+hosts have more than one listing.
+
+2) ANALYSIS. Number of AirBnb homes in the area versus total number of homes. I found number of homes data
+on the following links for our cities:
+
+Barcelona: Total 811,106 family dwellings. (684,078 are main; 38,769 are secondary, 88,259 are vacant.)
+http://www.idescat.cat/emex/?id=080193&lang=en#h200000
+
+London: Will need to be tallied from data set below; categories
+https://data.london.gov.uk/dataset/property-build-period-lsoa/resource/56c5b323-28c0-480b-984f-85259f2aa466#
+https://www.london.gov.uk/sites/default/files/housing_in_london_2015.pdf
+
+Paris: The total number of residences in the city of Paris in 2011 was 1,356,074, up from a former high of 1,334,815 in 2006. 
+Among these, 1,165,541 (85.9 percent) were main residences, 91,835 (6.8 percent) were secondary residences, and the remaining 7.3 percent were empty (down from 9.2 percent in 2006).[124]
+https://en.wikipedia.org/wiki/Paris#Housing
+
+Visualization Set 2: Density of AirBnB versus total number of family dwellings (Barcelona, London, Paris.)
+
+Team tasks:
+
+1. Objective and overview outlined above (kmarginean)
+2. Visualizations outlined above (kmarginean)
+3. Data for Barcelona, London and Paris collected in GitHub (lstottsg, erinpo, matthayden)
+4. Produce graphs for Visualisation Set 1: __________________________________
+5. Produce graphs for Visualization Set 2: __________________________________
+6. Content outline for The Show: ____________________________________________
+7. Code The Show: ___________________________________________________________
+8. Write paper: KMarginean
