@@ -1,5 +1,4 @@
 
-
 #Predict-455
 #The Show
 #Travel & Tourism
@@ -19,7 +18,7 @@ Paris_R <- read.csv("Paris Reviews.csv")
 ParisHousingIndex <- read.csv("Paris Housing Index.csv")
 
 #########################################################################################
-#VISUALIZATION #1: Review Text WordCloud
+#VISUALIZATION #1: Review Text Word Frequency Bar Chart
 #########################################################################################
 library(wordcloud)
 library(tm) 
@@ -28,6 +27,7 @@ library(tidytext)
 library(SnowballC)   
 library(cluster)  
 library(fpc)
+library(plyr)
 library(dplyr)
 
 ParisReviews <- scan("Paris Detailed Reviews.csv.gz", what = "char", sep = "\n") 
@@ -79,9 +79,28 @@ PRfreq.plot <- ggplot(subset(ParisReview.freq, Freq>50000), aes(reorder(Var1, -F
   theme(axis.text.x=element_text(angle=45, hjust=1))   +
   ggtitle("Paris Reviews: Top Words") +
   xlab("Words")
+print(PRfreq.plot)
 dev.off()
-PRfreq.plot 
 
+
+png(file = "Paris Review Word Freq Bar Chart.png",width = 480, height = 480, units = "px", pointsize = 12,
+    bg = "white", res = NA, family = "", restoreConsole = TRUE,
+    type = c("windows", "cairo", "cairo-png"))
+PRfreq.plot <- ggplot(subset(ParisReview.freq, Freq>50000), aes(reorder(Var1, -Freq), Freq))  +  
+  geom_bar(stat="identity", color="LightBlue", fill="Gray")   +
+  theme(axis.text.x=element_text(angle=45, hjust=1))   +
+  ggtitle("Paris Reviews: Top Words") +
+  xlab("Words")
+print(PRfreq.plot)
+dev.off()
+ 
+
+
+#########################################################################################
+#VISUALIZATION #1: Review Text Word Cloud
+#########################################################################################
+
+#TODO - this is not working...perhaps need to subset
 
 #same color palette for wordcloud
 my.pal <- brewer.pal(12, "Paired") 
@@ -110,9 +129,6 @@ summary(Paris_R.eda)
 Paris_L.eda[is.na(Paris_L.eda)] <- 0
 Paris_R.eda[is.na(Paris_R.eda)] <- 0
 
-#and now we have no missing values
-sum(is.na(valid_survey_input.eda))
-
 #view data dimensions
 dim(Paris_L.eda)
 
@@ -122,14 +138,9 @@ neighborhoods <- as.data.frame(unique(Paris_L.eda$neighbourhood))
 #########################################################################################
 #VISUALIZATION #2: Bar Charts
 #########################################################################################
-library(ggplot2)
-library(plyr)
-library(tibble)
-library(reshape)
-library(dplyr)
-library(stringr)
-library(readr)
-library(corrplot)
+
+Paris_L.eda
+attach(Paris_L.eda)
 
 #Mean price per neighborhood
 #y-axis = mean price
@@ -148,25 +159,32 @@ ggplot.pxbyloc <- ggplot(mean.price, aes(x = reorder(mean.price$Group.1, -mean.p
   ggtitle("Mean Price per Neighborhood") +
   xlab("Neighborhood") +
   ylab("Mean Price in USD")
-dev.off()
 print(ggplot.pxbyloc)
+dev.off()
+
+png(file = "Paris Mean Price per Neighborhood.png",width = 480, height = 480, units = "px", pointsize = 12,
+    bg = "white", res = NA, family = "", restoreConsole = TRUE,
+    type = c("windows", "cairo", "cairo-png"))
+ggplot.pxbyloc <- ggplot(mean.price, aes(x = reorder(mean.price$Group.1, -mean.price$x),y = mean.price$x))  +  
+  geom_bar(stat="identity", color="LightBlue", fill="Gray")   +
+  theme(axis.text.x=element_text(angle=45, hjust=1))   +
+  ggtitle("Mean Price per Neighborhood") +
+  xlab("Neighborhood") +
+  ylab("Mean Price in USD")
+print(ggplot.pxbyloc)
+dev.off()
 
 #############################################################################################################################
 #GGPlot: Stacked Bar Charts
-
-Paris_L.eda
-attach(Paris_L.eda)
+#y-axis = price
+#x-axis = minimum nights
+#category = neighborhood group
 
 visalength <- Paris_L.eda[ which(minimum_nights>=90 ), ] #no rentals with a min of 90 nights (visa requirments)
 longterm <- Paris_L.eda[ which(minimum_nights<90 & minimum_nights>=30), ]
 midterm <- Paris_L.eda[ which(minimum_nights<30 & minimum_nights>=20), ]
 shortterm <- Paris_L.eda[ which(minimum_nights<20 & minimum_nights>=4), ]
 quicktrip <- Paris_L.eda[ which(minimum_nights<4 ), ]
-
-#Stacked bar chart showing the proportion of student preference in software language, stacked by interest type
-#y-axis = price
-#x-axis = minimum nights
-#category = neighborhood group
 
 #Quick Trip Rental
 pdf(file = "Paris Quick Trip Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
@@ -175,8 +193,19 @@ ggplot.quicktrip <- ggplot(quicktrip, aes( x = minimum_nights, y = price, fill =
   ggtitle("Price by Room Type: Quick Trips Allowed\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night")
-dev.off()
 print(ggplot.quicktrip)
+dev.off()
+
+png(file = "Paris Quick Trip Rental Price by Room Type.png",width = 480, height = 480, units = "px", pointsize = 12,
+    bg = "white", res = NA, family = "", restoreConsole = TRUE,
+    type = c("windows", "cairo", "cairo-png"))
+ggplot.quicktrip <- ggplot(quicktrip, aes( x = minimum_nights, y = price, fill = room_type )) + 
+  geom_bar( position = "dodge", stat = "identity") +
+  ggtitle("Price by Room Type: Quick Trips Allowed\n") +
+  xlab("\nMinimum Nights") +
+  ylab("Price per Night")
+print(ggplot.quicktrip)
+dev.off()
 
 #Short Term Rental
 pdf(file = "Paris Short Term Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
@@ -185,8 +214,19 @@ ggplot.shortterm <- ggplot(shortterm, aes( x = minimum_nights, y = price, fill =
   ggtitle("Price by Room Type: Short Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night") 
-dev.off()
 print(ggplot.shortterm)
+dev.off()
+
+png(file = "Paris Short Term Rental Price by Room Type.png",width = 480, height = 480, units = "px", pointsize = 12,
+    bg = "white", res = NA, family = "", restoreConsole = TRUE,
+    type = c("windows", "cairo", "cairo-png"))
+ggplot.shortterm <- ggplot(shortterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
+  geom_bar( position = "dodge", stat = "identity") +
+  ggtitle("Price by Room Type: Short Term Rentals\n") +
+  xlab("\nMinimum Nights") +
+  ylab("Price per Night") 
+print(ggplot.shortterm)
+dev.off()
 
 #Midterm Rental
 pdf(file = "Paris Medium Term Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
@@ -195,8 +235,19 @@ ggplot.midterm <- ggplot(midterm, aes( x = minimum_nights, y = price, fill = roo
   ggtitle("Price by Room Type: Medium Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night") 
-dev.off()
 print(ggplot.midterm)
+dev.off()
+
+png(file = "Paris Medium Term Rental Price by Room Type.png",width = 480, height = 480, units = "px", pointsize = 12,
+    bg = "white", res = NA, family = "", restoreConsole = TRUE,
+    type = c("windows", "cairo", "cairo-png"))
+ggplot.midterm <- ggplot(midterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
+  geom_bar( position = "dodge", stat = "identity") +
+  ggtitle("Price by Room Type: Medium Term Rentals\n") +
+  xlab("\nMinimum Nights") +
+  ylab("Price per Night") 
+print(ggplot.midterm)
+dev.off()
 
 #Longterm Rental
 pdf(file = "Paris Long Term Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
@@ -205,12 +256,29 @@ ggplot.longterm <- ggplot(longterm, aes( x = minimum_nights, y = price, fill = r
   ggtitle("Price by Room Type: Longer Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night") 
-dev.off()
 print(ggplot.longterm)
+dev.off()
+
+png(file = "Paris Long Term Rental Price by Room Type.png",width = 480, height = 480, units = "px", pointsize = 12,
+    bg = "white", res = NA, family = "", restoreConsole = TRUE,
+    type = c("windows", "cairo", "cairo-png"))
+ggplot.longterm <- ggplot(longterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
+  geom_bar( position = "dodge", stat = "identity") +
+  ggtitle("Price by Room Type: Longer Term Rentals\n") +
+  xlab("\nMinimum Nights") +
+  ylab("Price per Night") 
+print(ggplot.longterm)
+dev.off()
 
 
 #########################################################################################
-#VISUALIZATION #: Dotplot
+#VISUALIZATION #4: Time Series
+#########################################################################################
+ParisHI.eda <- ParisHousingIndex
+summary(ParisHI.eda)
+
+#########################################################################################
+#VISUALIZATION #5: Dotplot
 #########################################################################################
 
 #simple lattice connected dotplot
@@ -220,11 +288,7 @@ lattice.pxbyloc <- dotplot(mean.price$Group.1 ~ mean.price$x , data = Paris_L.ed
 print(lattice.pxbyloc)
 
 
-#########################################################################################
-#VISUALIZATION #4: Time Series
-#########################################################################################
-ParisHI.eda <- ParisHousingIndex
-summary(ParisHI.eda)
+
 
 
 
