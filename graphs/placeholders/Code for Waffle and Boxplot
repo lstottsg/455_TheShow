@@ -1,0 +1,14 @@
+paris_data <- read.csv(file = "Paris_data_revised.csv")
+boxplot(Paris_data_revised$X..listings.per.id, main="Box Plot of Number of Rentals by Host ID",horizontal = TRUE)
+
+library(extrafontdb)
+library(ggplot2)
+library(waffle)
+library(Rttf2pt1)
+
+host_counts <- c(41547,3019,165,126)
+names(host_counts) <- c("1","2-4","5-10",">10")
+host_counts
+
+number_listings <- read.csv(file="Number_listings.csv")
+waffle(host_counts/100, title="Number of Rentals Per Host ID", xlab="One Square Equals 100 Host IDs")
