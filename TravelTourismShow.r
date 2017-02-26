@@ -1,4 +1,5 @@
 
+
 #Predict-455
 #The Show
 #Travel & Tourism
@@ -287,7 +288,70 @@ lattice.pxbyloc <- dotplot(mean.price$Group.1 ~ mean.price$x , data = Paris_L.ed
                            ylab = "Neighborhood", main = "Mean Price by Location")
 print(lattice.pxbyloc)
 
+#########################################################################################
+#VISUALIZATION #7: Pie Chart (making same look as Erin's)
+#########################################################################################
+property_counts <- read.csv("paris_listed3.csv", header=TRUE, sep=",", as.is=TRUE)
 
+listingIds <- length(unique(Paris_L$id))
+listingIds
+#gives 52,725 listing ids
+
+#per Kayla's stats, 1,356,074 total Paris residences in 2011
+
+#so non-AirBnB residences 1303349 and AirBnB 52725 (making huge assumptions given year difference and no clue what areas are included)
+
+#Unlisted Paris residences versus AirBnB properties
+pdf(file = "Unlisted Paris residences versus AirBnB properties.pdf", width = 8.5, height = 8.5) 
+slices <- c(1303349, 52725) 
+lbls <- c("Non-AirBnB", "AirBnB Listed")
+pct <- round(slices/sum(slices)*100)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls,"%",sep="")
+pie(slices,labels = lbls, col=rainbow(length(lbls)),main="Paris Residences: Unlisted vs AirBnB Listed Properties | AirBnB in Paris")
+dev.off()
+
+png(file = "Unlisted Paris residences versus AirBnB properties.png",width = 480, height = 480, units = "px", pointsize = 12,
+    bg = "white", res = NA, family = "", restoreConsole = TRUE,
+    type = c("windows", "cairo", "cairo-png"))
+slices <- c(1303349, 52725) 
+lbls <- c("Non-AirBnB", "AirBnB Listed")
+pct <- round(slices/sum(slices)*100)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls,"%",sep="")
+pie(slices,labels = lbls, col=rainbow(length(lbls)),main="Paris Residences: Unlisted vs AirBnB Listed Properties | AirBnB in Paris")
+dev.off()
+
+#******************************************************************************************************************************************
+#Erin's Code
+#******************************************************************************************************************************************
+property_counts <- read.csv("/Volumes/WD/NU/predict_455/Group_assignments/CheckPointC/working_files/paris_listed3.csv", header=TRUE, sep=",", as.is=TRUE)
+
+pdf(file = "/Volumes/WD/NU/predict_455/Group_assignments/CheckPointC/working_files/paris_barchart.pdf", width = 11, height = 8.5)
+
+ggplot(data=property_counts, aes(x=properties, y=owners)) +
+  geom_bar(colour="chocolate4", fill="chocolate1", width=0.8,stat="identity") +
+  xlab("Numbers of Properties Owned") + ylab("Numbers of Owners") +
+  ggtitle("The Total Numbers of AirBnB Rental Properties Owned in Paris")
+
+dev.off()
+
+slices <- c(2854, 524872) 
+lbls <- c("Owned Multiple Propertities", "Owned Single Property")
+          pct <- round(slices/sum(slices)*100)
+          lbls <- paste(lbls, pct)
+          lbls <- paste(lbls,"%",sep="")
+          pie(slices,labels = lbls, col=rainbow(length(lbls)),main="Owned Single Property Versus Multiple Properties | AirBnB in Paris")
+          
+          pdf(file = "/Volumes/WD/NU/predict_455/Group_assignments/CheckPointC/working_files/paris_piechart.pdf", width = 11, height = 8.5)
+          
+          slices <- c(2854, 524872) 
+          lbls <- c("Owned Multiple Propertities", "Owned Single Property")
+pct <- round(slices/sum(slices)*100)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls,"%",sep="")
+pie(slices,labels = lbls, col=rainbow(length(lbls)),main="Owned Single Property Versus Multiple Properties | AirBnB in Paris")
+dev.off()
 
 
 
