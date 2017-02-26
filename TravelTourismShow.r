@@ -1,4 +1,5 @@
 
+
 #Predict-455
 #The Show
 #Travel & Tourism
@@ -72,12 +73,13 @@ ParisReview.freq <- ParisReview.freq[order(-ParisReview.freq$Freq),]
 
 library(ggplot2)
 #plot words that appear at least 50000 times
+pdf(file = "Paris Review Word Freq Bar Chart.pdf", width = 8.5, height = 8.5) 
 PRfreq.plot <- ggplot(subset(ParisReview.freq, Freq>50000), aes(reorder(Var1, -Freq), Freq))  +  
   geom_bar(stat="identity", color="LightBlue", fill="Gray")   +
   theme(axis.text.x=element_text(angle=45, hjust=1))   +
   ggtitle("Paris Reviews: Top Words") +
   xlab("Words")
-
+dev.off()
 PRfreq.plot 
 
 
@@ -139,13 +141,14 @@ mean.price <- data.frame(aggregate(price, by=list(neighbourhood), FUN=mean))
 Paris_L.eda <- transform(Paris_L.eda, neighbourhood=reorder(neighbourhood, -price) ) 
 
 #bar chart - mean price per neighborhood
+pdf(file = "Paris Mean Price per Neighborhood.pdf", width = 8.5, height = 8.5) 
 ggplot.pxbyloc <- ggplot(mean.price, aes(x = reorder(mean.price$Group.1, -mean.price$x),y = mean.price$x))  +  
   geom_bar(stat="identity", color="LightBlue", fill="Gray")   +
   theme(axis.text.x=element_text(angle=45, hjust=1))   +
   ggtitle("Mean Price per Neighborhood") +
   xlab("Neighborhood") +
   ylab("Mean Price in USD")
-
+dev.off()
 print(ggplot.pxbyloc)
 
 #############################################################################################################################
@@ -166,35 +169,43 @@ quicktrip <- Paris_L.eda[ which(minimum_nights<4 ), ]
 #category = neighborhood group
 
 #Quick Trip Rental
+pdf(file = "Paris Quick Trip Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
 ggplot.quicktrip <- ggplot(quicktrip, aes( x = minimum_nights, y = price, fill = room_type )) + 
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Quick Trips Allowed\n") +
   xlab("\nMinimum Nights") +
-  ylab("Price per Night") 
+  ylab("Price per Night")
+dev.off()
 print(ggplot.quicktrip)
 
 #Short Term Rental
+pdf(file = "Paris Short Term Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
 ggplot.shortterm <- ggplot(shortterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Short Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night") 
+dev.off()
 print(ggplot.shortterm)
 
 #Midterm Rental
+pdf(file = "Paris Medium Term Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
 ggplot.midterm <- ggplot(midterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Medium Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night") 
+dev.off()
 print(ggplot.midterm)
 
 #Longterm Rental
+pdf(file = "Paris Long Term Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
 ggplot.longterm <- ggplot(longterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Longer Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night") 
+dev.off()
 print(ggplot.longterm)
 
 
@@ -214,6 +225,9 @@ print(lattice.pxbyloc)
 #########################################################################################
 ParisHI.eda <- ParisHousingIndex
 summary(ParisHI.eda)
+
+
+
 
 
 
