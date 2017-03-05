@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>D3 Tutorial</title>
+	<script src="http://d3js.org/d3.v4.min.js"></script>
+<head>
+
+<body>
+	<p>This is a paragraph</p>
+
+	<script type="text/javascript">
+		
+		d3.select("p")
+			.text("Hello");
+
+		d3.select("body")
+			.append("p")
+			.text("helllooooo")
+			.style("color","red");
+
+		var canvas = d3.select("body")
+						.append("svg")
+						.attr("width",500)
+						.attr("height",500);
+		var circle = canvas.append("circle")
+						.attr("cx",250)
+						.attr("cy",250)
+						.attr("r",50)
+						.attr("fill", "red");
+		var rect = canvas.append("rect")
+						.attr("cx",100)
+						.attr("cy",50)
+						.attr("fill", "blue");
+		var line = canvas.append("line")
+						.attr("x1",0)
+						.attr("y1",100)
+						.attr("x2",400)
+						.attr("y2",400)
+						.attr("stroke", "pink")
+						.attr("stroke-width",5);
+	</script>
+</body>
+
+</html>
