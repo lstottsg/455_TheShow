@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>D3 Tutorial</title>
+	<script src="d3.js"></script>
+</head>
+
+<body>
+	<script type="text/javascript">
+		//return an array of objects according to key, value, or key and value matching
+		function getObjects(obj, key, val) {
+		    var objects = [];
+		    for (var i in obj) {
+		        if (!obj.hasOwnProperty(i)) continue;
+		        if (typeof obj[i] == 'object') {
+		            objects = objects.concat(getObjects(obj[i], key, val));    
+		        } else 
+		        //if key matches and value matches or if key matches and value is not passed (eliminating the case where key matches but passed value does not)
+		        if (i == key && obj[i] == val || i == key && val == '') { //
+		            objects.push(obj);
+		        } else if (obj[i] == val && key == ''){
+		            //only add if the object is not already in the array
+		            if (objects.lastIndexOf(obj) == -1){
+		                objects.push(obj);
+		            }
+		        }
+		    }
+		    return objects;
+		}
+
+		//return an array of values that match on a certain key
+		function getValues(obj, key) {
+		    var objects = [];
+		    for (var i in obj) {
+		        if (!obj.hasOwnProperty(i)) continue;
+		        if (typeof obj[i] == 'object') {
+		            objects = objects.concat(getValues(obj[i], key));
+		        } else if (i == key) {
+		            objects.push(obj[i]);
+		        }
+		    }
+		    return objects;
+		}
+
+		//return an array of keys that match on a certain value
+		function getKeys(obj, val) {
+		    var objects = [];
+		    for (var i in obj) {
+		        if (!obj.hasOwnProperty(i)) continue;
+		        if (typeof obj[i] == 'object') {
+		            objects = objects.concat(getKeys(obj[i], val));
+		        } else if (obj[i] == val) {
+		            objects.push(i);
+		        }
+		    }
+		    return objects;
+		}
+	</script>
+	<script type="text/javascript">
+		var neighborhood_listing_counts = '[{"neighbourhood":"Buttes-Chaumont","count":2186},{"neighbourhood":"Reuilly","count":1820},{"neighbourhood":"Gobelins","count":1528},{"neighbourhood":"Élysée","count":1302},{"neighbourhood":"Opéra","count":1964},{"neighbourhood":"Bourse","count":1411},{"neighbourhood":"Vaugirard","count":3115},{"neighbourhood":"Palais-Bourbon","count":1415},{"neighbourhood":"Entrepôt","count":2872},{"neighbourhood":"Luxembourg","count":1645},{"neighbourhood":"Popincourt","count":3994},{"neighbourhood":"Observatoire","count":1730},{"neighbourhood":"Batignolles-Monceau","count":2951},{"neighbourhood":"Ménilmontant","count":2273},{"neighbourhood":"Buttes-Montmartre","count":4976},{"neighbourhood":"Passy","count":2652},{"neighbourhood":"Temple","count":1888},{"neighbourhood":"Louvre","count":1013},{"neighbourhood":"Panthéon","count":1712},{"neighbourhood":"Hôtel-de-Ville","count":1663}]';
+		var jsonListings = JSON.parse(neighborhood_listing_counts);
+	</script>
+	<script type="text/javascript">
+		var listingsColor = d3.scale.threshold()
+    			.domain([1000,2000,3000,4000,5000])
+    			.range(["#f2f0f7", "#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"]);
+
+		var canvas = d3.select("body")
+						.append("svg")
+						.attr("width",760)
+						.attr("height",700);
+
+
+		d3.json("http://data.insideairbnb.com/france/ile-de-france/paris/2016-07-03/visualisations/neighbourhoods.geojson", function(data) {
+
+			var group = canvas.selectAll("g")
+							.data(data.features)
+							.enter()
+							.append("g");
+
+			var projection = d3.geo.mercator()
+								.scale(150000)
+								.translate([-5700,147250]);
+
+			var path = d3.geo.path().projection(projection);
+
+
+			var areas = group.append("path")
+							.attr("d", path)
+							.attr("class", "area")
+							.attr("fill", function(d) {
+								var name = d.properties.neighbourhood;
+								var counts = getObjects(jsonListings,'neighbourhood',name);
+								var count = counts[0].count;
+								
+								return listingsColor(count);
+							});
+
+			group.append("text")
+					.attr("x", function(d) {
+						return path.centroid(d)[0];
+					})
+					.attr("y", function(d) {
+						return path.centroid(d)[1];
+					})
+					.text(function(d) {
+						return d.properties.neighbourhood;
+					})
+					.attr("text-anchor","middle")
+					.attr("font-family","sans-serif")
+					.attr("font-size","12px");
+
+			canvas.append("text")
+			      .attr("class", "title")
+			      .attr("x", width/2)
+			      .attr("y", 0 - (margin.top / 2))
+			      .attr("text-anchor", "middle")
+			      .text("Testing");
+		});
+	</script>
+</body>
+
+</html>
