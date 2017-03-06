@@ -60,8 +60,8 @@
 	<script type="text/javascript">
 		var neighborhood_listing_counts = '[{"neighbourhood":"Buttes-Chaumont","count":2186},{"neighbourhood":"Reuilly","count":1820},{"neighbourhood":"Gobelins","count":1528},{"neighbourhood":"Élysée","count":1302},{"neighbourhood":"Opéra","count":1964},{"neighbourhood":"Bourse","count":1411},{"neighbourhood":"Vaugirard","count":3115},{"neighbourhood":"Palais-Bourbon","count":1415},{"neighbourhood":"Entrepôt","count":2872},{"neighbourhood":"Luxembourg","count":1645},{"neighbourhood":"Popincourt","count":3994},{"neighbourhood":"Observatoire","count":1730},{"neighbourhood":"Batignolles-Monceau","count":2951},{"neighbourhood":"Ménilmontant","count":2273},{"neighbourhood":"Buttes-Montmartre","count":4976},{"neighbourhood":"Passy","count":2652},{"neighbourhood":"Temple","count":1888},{"neighbourhood":"Louvre","count":1013},{"neighbourhood":"Panthéon","count":1712},{"neighbourhood":"Hôtel-de-Ville","count":1663}]';
 		var jsonListings = JSON.parse(neighborhood_listing_counts);
-
-
+	</script>
+	<script type="text/javascript">
 		var listingsColor = d3.scale.threshold()
     			.domain([1000,2000,3000,4000,5000])
     			.range(["#f2f0f7", "#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"]);
@@ -111,6 +111,12 @@
 					.attr("font-family","sans-serif")
 					.attr("font-size","12px");
 
+			canvas.append("text")
+			      .attr("class", "title")
+			      .attr("x", width/2)
+			      .attr("y", 0 - (margin.top / 2))
+			      .attr("text-anchor", "middle")
+			      .text("Testing");
 		});
 	</script>
 </body>
