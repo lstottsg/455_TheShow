@@ -1,0 +1,236 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>D3 Tutorial</title>
+	<script src="d3.js"></script>
+	<style>
+		path {
+		  stroke:white;
+		  stroke-width: 1px;
+		}
+
+		body {
+		  font-family: Arial, sans-serif;
+		}
+
+		.city {
+		  font: 10px sans-serif;
+		  font-weight: bold;
+		}
+
+		.legend {
+		  font-size: 12px;
+		}
+
+		div.tooltip {   
+		  position: absolute;           
+		  text-align: center;           
+		  width: 50px;                  
+		  height: 25px;                 
+		  padding: 2px;             
+		  font-size: 12px;     
+		  background: #FFFFE0;
+		  border: 1px;      
+		  border-radius: 8px;           
+		  pointer-events: none;         
+		}        
+	</style>
+</head>
+
+<body>
+	<script type="text/javascript">
+		//return an array of objects according to key, value, or key and value matching
+		function getObjects(obj, key, val) {
+		    var objects = [];
+		    for (var i in obj) {
+		        if (!obj.hasOwnProperty(i)) continue;
+		        if (typeof obj[i] == 'object') {
+		            objects = objects.concat(getObjects(obj[i], key, val));    
+		        } else 
+		        //if key matches and value matches or if key matches and value is not passed (eliminating the case where key matches but passed value does not)
+		        if (i == key && obj[i] == val || i == key && val == '') { //
+		            objects.push(obj);
+		        } else if (obj[i] == val && key == ''){
+		            //only add if the object is not already in the array
+		            if (objects.lastIndexOf(obj) == -1){
+		                objects.push(obj);
+		            }
+		        }
+		    }
+		    return objects;
+		}
+
+		//return an array of values that match on a certain key
+		function getValues(obj, key) {
+		    var objects = [];
+		    for (var i in obj) {
+		        if (!obj.hasOwnProperty(i)) continue;
+		        if (typeof obj[i] == 'object') {
+		            objects = objects.concat(getValues(obj[i], key));
+		        } else if (i == key) {
+		            objects.push(obj[i]);
+		        }
+		    }
+		    return objects;
+		}
+
+		//return an array of keys that match on a certain value
+		function getKeys(obj, val) {
+		    var objects = [];
+		    for (var i in obj) {
+		        if (!obj.hasOwnProperty(i)) continue;
+		        if (typeof obj[i] == 'object') {
+		            objects = objects.concat(getKeys(obj[i], val));
+		        } else if (obj[i] == val) {
+		            objects.push(i);
+		        }
+		    }
+		    return objects;
+		}
+	</script>
+	<script type="text/javascript">
+		var neighborhood_listing_counts = '[{"neighbourhood":"Buttes-Chaumont","avg":68},{"neighbourhood":"Reuilly","avg":80},{"neighbourhood":"Gobelins","avg":76},{"neighbourhood":"Élysée","avg":173},{"neighbourhood":"Opéra","avg":102},{"neighbourhood":"Bourse","avg":121},{"neighbourhood":"Vaugirard","avg":94},{"neighbourhood":"Palais-Bourbon","avg":145},{"neighbourhood":"Entrepôt","avg":84},{"neighbourhood":"Luxembourg","avg":149},{"neighbourhood":"Popincourt","avg":81},{"neighbourhood":"Observatoire","avg":88},{"neighbourhood":"Batignolles-Monceau","avg":91},{"neighbourhood":"Ménilmontant","avg":67},{"neighbourhood":"Buttes-Montmartre","avg":77},{"neighbourhood":"Passy","avg":129},{"neighbourhood":"Temple","avg":120},{"neighbourhood":"Louvre","avg":142},{"neighbourhood":"Panthéon","avg":118},{"neighbourhood":"Hôtel-de-Ville","avg":138}]';
+		var jsonListings = JSON.parse(neighborhood_listing_counts);
+
+		
+	</script>
+	<script type="text/javascript">
+
+		var width = 760;
+		var height = 400;
+
+		var listingsColor = d3.scale.threshold()
+    			.domain([1000,2000,3000,4000,5000])
+    			.range(["#f2f0f7", "#dadaeb", "#bcbddc", "#9e9ac8", "#756bb1", "#54278f"]);
+
+		var canvas = d3.select("body")
+						.append("svg")
+						.attr("width",width)
+						.attr("height",height);
+
+		canvas.append("text")
+		      .attr("class", "title")
+		      .attr("x", width/2)
+		      .attr("y", 0)
+		      .attr("text-anchor", "middle")
+		      .text("Number of Rentals by Area");
+
+
+		d3.json("http://data.insideairbnb.com/france/ile-de-france/paris/2016-07-03/visualisations/neighbourhoods.geojson", function(data) {
+
+			var group = canvas.selectAll("g")
+							.data(data.features)
+							.enter()
+							.append("g");
+
+			var div = d3.select("body").append("div")   
+						  .attr("class", "tooltip")               
+						  .style("opacity", 0);
+
+			var projection = d3.geo.mercator()
+								.scale(150000)
+								.translate([-5700,147250]);
+
+			var path = d3.geo.path().projection(projection);
+
+   			var nameById = {};
+   			//data.forEach(function(d) {
+    		//	nameById[d.properties.neighbourhood] = d.properties.neighbourhood;
+  			//});
+
+			var areas = group.append("path")
+							.attr("d", path)
+							.attr("class", "area")
+							.attr("fill", function(d) {
+								var name = d.properties.neighbourhood;
+								var counts = getObjects(jsonListings,'neighbourhood',name);
+								var count = counts[0].count;
+								
+								return listingsColor(count);
+							})
+							.on("mouseover", function(d) {
+							    d3.select(this).transition().duration(300).style("opacity", 1);
+							    div.transition().duration(300)
+							    .style("opacity", 1)
+							    div.text(function() {
+									var name = d.properties.neighbourhood;
+									console.log(name);
+									var counts = getObjects(jsonListings,'neighbourhood',name);
+									var count = counts[0].count;
+									return count;
+							    })
+							    .style("left", (d3.event.pageX) + "px")
+							    .style("top", (d3.event.pageY -30) + "px");
+							  })
+							  .on("mouseout", function() {
+							    d3.select(this)
+							    .transition().duration(300)
+							    .style("opacity", 0.8);
+							    div.transition().duration(300)
+							    .style("opacity", 0);
+							  });
+
+			group.append("text")
+					.attr("x", function(d) {
+						return path.centroid(d)[0];
+					})
+					.attr("y", function(d) {
+						return path.centroid(d)[1];
+					})
+					.text(function(d) {
+						return d.properties.neighbourhood;
+					})
+					.attr("text-anchor","middle")
+					.attr("font-family","sans-serif")
+					.attr("font-size","12px");
+
+			canvas.append("text")
+			      .attr("class", "title")
+			      .attr("x", width/2)
+			      .attr("y", 30)
+			      .attr("text-anchor", "middle")
+			      .text("Number of Listings by Area")
+			      .attr("color","black")
+			      .attr("font-weight","bold");
+
+
+			  canvas.selectAll(".pin")
+				  .data(data)
+				  .enter().append("circle", ".pin")
+				  .attr("r", 2)
+				  .attr("transform", function(d) {
+				    return "translate(" + projection([
+				      d.location.longitude,
+				      d.location.latitude
+				    ]) + ")";
+				  });
+
+			var legend_labels = ["< 999", "1000+", "2000+", "3000+", ">4000"]
+	    	var ext_color_domain = [0, 1000, 2000, 3000, 4000]
+              
+			var legend = canvas.selectAll("g.legend")
+			  .data(ext_color_domain)
+			  .enter().append("g")
+			  .attr("class", "legend");
+
+			var ls_w = 20, ls_h = 20;
+
+			  legend.append("rect")
+			  .attr("x", 20)
+			  .attr("y", function(d, i){ return height - (i*ls_h) - 2*ls_h;})
+			  .attr("width", ls_w)
+			  .attr("height", ls_h)
+			  .style("fill", function(d, i) { return listingsColor(d); })
+			  .style("opacity", 0.8);
+
+			  legend.append("text")
+			  .attr("x", 50)
+			  .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
+			  .text(function(d, i){ return legend_labels[i]; });
+
+		});
+	</script>
+</body>
+
+</html>

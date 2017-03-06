@@ -19,6 +19,7 @@ group by room_type, neighbourhood
 select neighbourhood, count(*)
 from listings
 group by  neighbourhood
+order by 1
 
 select neighbourhood, avg(price)
 from listings
