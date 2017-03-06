@@ -1,0 +1,31 @@
+
+
+CREATE TABLE Listings (
+	id	INT PRIMARY KEY  NOT NULL,
+    neighbourhood 	CHAR(150),
+    latitude		FLOAT,
+    longitude		FLOAT,
+    room_type		CHAR(150),
+    price			INT,
+    availability_365 INT
+);
+
+select latitude, longitude from Listings
+
+select room_type, neighbourhood, count(*)
+from listings
+group by room_type, neighbourhood
+
+select neighbourhood, count(*)
+from listings
+group by  neighbourhood
+
+select neighbourhood, avg(price)
+from listings
+group by neighbourhood
+
+
+COPY Listings FROM '/Users/haydude/Development/mspa/455 - DataViz/455_TheShow/code/d3/listings.csv' CSV HEADER;
+
+
+
