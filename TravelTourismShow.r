@@ -1,5 +1,4 @@
 
-
 #Predict-455
 #The Show
 #Travel & Tourism
@@ -14,8 +13,8 @@
 ######################################################################################################################
 setwd("C:/Users/lstottsg/Desktop/Laura School/Winter 2017/Show Data Files")
 #load data
-Paris_L <- read.csv("Paris Listings.csv")
-Paris_R <- read.csv("Paris Reviews.csv")
+Paris_L <- read.csv("Paris Listings.csv", encoding = "UTF-8")
+Paris_R <- read.csv("Paris Reviews.csv", encoding = "UTF-8")
 ParisHousingIndex <- read.csv("Paris Housing Index.csv")
 
 #########################################################################################
@@ -30,9 +29,11 @@ library(cluster)
 library(fpc)
 library(plyr)
 library(dplyr)
+library(textcat)
 
-ParisReviews <- scan("Paris Detailed Reviews.csv.gz", what = "char", sep = "\n") 
+ParisReviews <- scan("Paris Detailed Reviews.csv.gz", what = "char", sep = "\n", encoding = "UTF-8") 
 class(ParisReviews)
+head(ParisReviews)
 
 #PREPROCESS DATA
 ParisReviews <- tolower(ParisReviews) 
@@ -52,10 +53,15 @@ ParisReviews <- removeWords(ParisReviews,c("paris","apartment", "appartement", "
                                            "flat", "house", "room", "small", "clean", "bed", "lappartement")) 
 #remove general descriptive words not having to do with city/community
 ParisReviews <- removeWords(ParisReviews,c("comfortable", "perfect", "easy", "stay", "nice", "made",
-                                           "good", "great", "recommend", "excellent", "wonderful", "lovely", "bien")) 
+                                           "good", "great", "recommend", "excellent", "wonderful", "lovely", "bien", "can",
+                                           "get", "just", "definitely", "even", "très", "us")) 
 #remove non-descript words or possible codes
 ParisReviews <- removeWords(ParisReviews,c("ã", "ì", "ñ", "ðñ", "ì", "ððñ", "æ", "ñ",
                                            "ë", "ð", "å", "í", "el", "ê", "é")) 
+
+#what languages are these???
+textcat(c("ã", "ì", "ñ", "ðñ", "ì", "ððñ", "æ", "ñ",
+          "ë", "ð", "å", "í", "el", "ê", "é"))
 
 #translate some frequent words
 ParisReviews <- gsub("trãs", "back", ParisReviews)
@@ -72,26 +78,29 @@ ParisReviews.vector <- ParisReviews.preword.vector[which(nchar(ParisReviews.prew
 ParisReview.freq <- as.data.frame(table(unlist(ParisReviews.vector)))
 ParisReview.freq <- ParisReview.freq[order(-ParisReview.freq$Freq),] 
 
+head(ParisReview.freq)
+
 library(ggplot2)
 #plot words that appear at least 50000 times
 pdf(file = "Paris Review Word Freq Bar Chart.pdf", width = 8.5, height = 8.5) 
 PRfreq.plot <- ggplot(subset(ParisReview.freq, Freq>50000), aes(reorder(Var1, -Freq), Freq))  +  
-  geom_bar(stat="identity", color="LightBlue", fill="Gray")   +
+  geom_bar(stat="identity", color="LightGreen", fill="Gray")   +
   theme(axis.text.x=element_text(angle=45, hjust=1))   +
   ggtitle("Paris Reviews: Top Words") +
-  xlab("Words")
+  xlab("Words Used in Reviews") +
+  ylab("Word Frequency")
 print(PRfreq.plot)
 dev.off()
 
 
-png(file = "Paris Review Word Freq Bar Chart.png",width = 480, height = 480, units = "px", pointsize = 12,
-    bg = "white", res = NA, family = "", restoreConsole = TRUE,
-    type = c("windows", "cairo", "cairo-png"))
+svg(file = "Paris Review Word Freq Bar Chart.svg",width = 7, height = 7, pointsize = 12,
+    bg = "white")
 PRfreq.plot <- ggplot(subset(ParisReview.freq, Freq>50000), aes(reorder(Var1, -Freq), Freq))  +  
-  geom_bar(stat="identity", color="LightBlue", fill="Gray")   +
+  geom_bar(stat="identity", color="LightGreen", fill="Gray")   +
   theme(axis.text.x=element_text(angle=45, hjust=1))   +
   ggtitle("Paris Reviews: Top Words") +
-  xlab("Words")
+  xlab("Words Used in Reviews") +
+  ylab("Word Frequency")
 print(PRfreq.plot)
 dev.off()
  
@@ -103,12 +112,26 @@ dev.off()
 
 #TODO - this is not working...perhaps need to subset
 
+corp <- corpus(VectorSource(ParisReviews.vector))
+dtm <- DocumentTermMatrix(corp)
+
+#tell R this is a plaintext doc       
+docs <- tm_map(ParisReviews, PlainTextDocument)   
+
+#STAGE AND EXPLORE DATA
+
+#create matrix from corpus
+dtm <- DocumentTermMatrix(docs)   
+dtm   
+#inspect(dtm)
+reviews.dtm <- DocumentTermMatrix(ParisReviews.vector)  
+
 #same color palette for wordcloud
 my.pal <- brewer.pal(12, "Paired") 
 
 #plot wordcloud
 set.seed(1234) 
-wordcloud(ParisReview.freq, min.freq = 40000, max.words = 150, random.order=FALSE, random.color=FALSE, rot.per=0.0, 
+wordcloud(subset(ParisReview.freq, Freq>40000), min.freq = 40000, max.words = 150, random.order=FALSE, random.color=FALSE, rot.per=0.0, 
           color=my.pal, ordered.colors=FALSE, use.r.layout=FALSE, fixed.asp=TRUE) +
   title(main="Paris AirBnB Reviews")
 
@@ -155,7 +178,7 @@ Paris_L.eda <- transform(Paris_L.eda, neighbourhood=reorder(neighbourhood, -pric
 #bar chart - mean price per neighborhood
 pdf(file = "Paris Mean Price per Neighborhood.pdf", width = 8.5, height = 8.5) 
 ggplot.pxbyloc <- ggplot(mean.price, aes(x = reorder(mean.price$Group.1, -mean.price$x),y = mean.price$x))  +  
-  geom_bar(stat="identity", color="LightBlue", fill="Gray")   +
+  geom_bar(stat="identity", color="LightGreen", fill="Gray")   +
   theme(axis.text.x=element_text(angle=45, hjust=1))   +
   ggtitle("Mean Price per Neighborhood") +
   xlab("Neighborhood") +
@@ -163,11 +186,10 @@ ggplot.pxbyloc <- ggplot(mean.price, aes(x = reorder(mean.price$Group.1, -mean.p
 print(ggplot.pxbyloc)
 dev.off()
 
-png(file = "Paris Mean Price per Neighborhood.png",width = 480, height = 480, units = "px", pointsize = 12,
-    bg = "white", res = NA, family = "", restoreConsole = TRUE,
-    type = c("windows", "cairo", "cairo-png"))
+svg(file = "Paris Mean Price per Neighborhood.svg",width = 7, height = 7, pointsize = 12,
+    bg = "white")
 ggplot.pxbyloc <- ggplot(mean.price, aes(x = reorder(mean.price$Group.1, -mean.price$x),y = mean.price$x))  +  
-  geom_bar(stat="identity", color="LightBlue", fill="Gray")   +
+  geom_bar(stat="identity", color="LightGreen", fill="Gray")   +
   theme(axis.text.x=element_text(angle=45, hjust=1))   +
   ggtitle("Mean Price per Neighborhood") +
   xlab("Neighborhood") +
@@ -193,18 +215,19 @@ ggplot.quicktrip <- ggplot(quicktrip, aes( x = minimum_nights, y = price, fill =
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Quick Trips Allowed\n") +
   xlab("\nMinimum Nights") +
-  ylab("Price per Night")
+  ylab("Price per Night USD") +
+  scale_fill_discrete(name = "Room Type") 
 print(ggplot.quicktrip)
 dev.off()
 
-png(file = "Paris Quick Trip Rental Price by Room Type.png",width = 480, height = 480, units = "px", pointsize = 12,
-    bg = "white", res = NA, family = "", restoreConsole = TRUE,
-    type = c("windows", "cairo", "cairo-png"))
+svg(file = "Paris Quick Trip Rental Price by Room Type.svg",width = 7, height = 7, pointsize = 12,
+    bg = "white")
 ggplot.quicktrip <- ggplot(quicktrip, aes( x = minimum_nights, y = price, fill = room_type )) + 
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Quick Trips Allowed\n") +
   xlab("\nMinimum Nights") +
-  ylab("Price per Night")
+  ylab("Price per Night USD") +
+  scale_fill_discrete(name = "Room Type")
 print(ggplot.quicktrip)
 dev.off()
 
@@ -214,18 +237,19 @@ ggplot.shortterm <- ggplot(shortterm, aes( x = minimum_nights, y = price, fill =
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Short Term Rentals\n") +
   xlab("\nMinimum Nights") +
-  ylab("Price per Night") 
+  ylab("Price per Night USD") +
+  scale_fill_discrete(name = "Room Type")
 print(ggplot.shortterm)
 dev.off()
 
-png(file = "Paris Short Term Rental Price by Room Type.png",width = 480, height = 480, units = "px", pointsize = 12,
-    bg = "white", res = NA, family = "", restoreConsole = TRUE,
-    type = c("windows", "cairo", "cairo-png"))
+svg(file = "Paris Short Term Rental Price by Room Type.svg",width = 7, height = 7, pointsize = 12,
+    bg = "white")
 ggplot.shortterm <- ggplot(shortterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Short Term Rentals\n") +
   xlab("\nMinimum Nights") +
-  ylab("Price per Night") 
+  ylab("Price per Night USD") +
+  scale_fill_discrete(name = "Room Type")
 print(ggplot.shortterm)
 dev.off()
 
@@ -235,39 +259,46 @@ ggplot.midterm <- ggplot(midterm, aes( x = minimum_nights, y = price, fill = roo
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Medium Term Rentals\n") +
   xlab("\nMinimum Nights") +
-  ylab("Price per Night") 
+  ylab("Price per Night USD") +
+  scale_fill_discrete(name = "Room Type") +
+  scale_x_continuous(breaks = 20:30)
 print(ggplot.midterm)
 dev.off()
 
-png(file = "Paris Medium Term Rental Price by Room Type.png",width = 480, height = 480, units = "px", pointsize = 12,
-    bg = "white", res = NA, family = "", restoreConsole = TRUE,
-    type = c("windows", "cairo", "cairo-png"))
+svg(file = "Paris Medium Term Rental Price by Room Type.svg",width = 7, height = 7, pointsize = 12,
+    bg = "white")
 ggplot.midterm <- ggplot(midterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Medium Term Rentals\n") +
   xlab("\nMinimum Nights") +
-  ylab("Price per Night") 
+  ylab("Price per Night USD") +
+  scale_fill_discrete(name = "Room Type") +
+  scale_x_continuous(breaks = 20:30)
 print(ggplot.midterm)
 dev.off()
 
 #Longterm Rental
 pdf(file = "Paris Long Term Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
-ggplot.longterm <- ggplot(longterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
-  geom_bar( position = "dodge", stat = "identity") +
+ggplot.longterm <- ggplot(longterm, aes( x = minimum_nights, y = price, fill = room_type, width=.9 )) + 
+  geom_bar( position = position_dodge(width = .8), width = 0.7, stat = "identity") +
   ggtitle("Price by Room Type: Longer Term Rentals\n") +
   xlab("\nMinimum Nights") +
-  ylab("Price per Night") 
+  ylab("Price per Night USD") +
+  scale_fill_discrete(name = "Room Type") +
+  scale_x_continuous(breaks = c(30,40,50,60,70,80,90))
 print(ggplot.longterm)
 dev.off()
 
-png(file = "Paris Long Term Rental Price by Room Type.png",width = 480, height = 480, units = "px", pointsize = 12,
-    bg = "white", res = NA, family = "", restoreConsole = TRUE,
-    type = c("windows", "cairo", "cairo-png"))
+
+svg(file = "Paris Long Term Rental Price by Room Type.svg",width = 7, height = 7, pointsize = 12,
+    bg = "white")
 ggplot.longterm <- ggplot(longterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
   geom_bar( position = "dodge", stat = "identity") +
   ggtitle("Price by Room Type: Longer Term Rentals\n") +
   xlab("\nMinimum Nights") +
-  ylab("Price per Night") 
+  ylab("Price per Night USD") +
+  scale_fill_discrete(name = "Room Type") +
+  scale_x_continuous(breaks = c(30,40,50,60,70,80,90))
 print(ggplot.longterm)
 dev.off()
 
@@ -275,6 +306,13 @@ dev.off()
 #########################################################################################
 #VISUALIZATION #4: Time Series
 #########################################################################################
+library(quantmod) # use for gathering and charting economic data
+library(lubridate) # date functions
+library(zoo)  # utilities for working with time series
+library(reshape)
+library(grid)
+library(scales)
+
 ParisHI.eda <- ParisHousingIndex
 summary(ParisHI.eda)
 
@@ -311,9 +349,8 @@ lbls <- paste(lbls,"%",sep="")
 pie(slices,labels = lbls, col=rainbow(length(lbls)),main="Paris Residences: Unlisted vs AirBnB Listed Properties | AirBnB in Paris")
 dev.off()
 
-png(file = "Unlisted Paris residences versus AirBnB properties.png",width = 480, height = 480, units = "px", pointsize = 12,
-    bg = "white", res = NA, family = "", restoreConsole = TRUE,
-    type = c("windows", "cairo", "cairo-png"))
+svg(file = "Unlisted Paris residences versus AirBnB properties.svg",width = 7, height = 7, pointsize = 12,
+    bg = "white")
 slices <- c(1303349, 52725) 
 lbls <- c("Non-AirBnB", "AirBnB Listed")
 pct <- round(slices/sum(slices)*100)
@@ -352,11 +389,3 @@ lbls <- paste(lbls, pct)
 lbls <- paste(lbls,"%",sep="")
 pie(slices,labels = lbls, col=rainbow(length(lbls)),main="Owned Single Property Versus Multiple Properties | AirBnB in Paris")
 dev.off()
-
-
-
-
-
-
-
-
