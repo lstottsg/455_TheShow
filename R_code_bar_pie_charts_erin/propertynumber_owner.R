@@ -3,7 +3,7 @@ property_counts <- read.csv("paris_listed3.csv", header=TRUE, sep=",", as.is=TRU
 pdf(file = "paris_barchart.pdf", width = 11, height = 8.5)
 
 ggplot(data=property_counts, aes(x=properties, y=owners)) +
-  geom_bar(colour="dark blue", fill="dark blue", width=0.8,stat="identity") +
+  geom_bar(color="LightGreen", fill="Gray", width=0.8,stat="identity") +
   xlab("Numbers of Properties Owned") + ylab("Numbers of Owners") +
   ggtitle("The Total Numbers of AirBnB Rental Properties Owned in Paris")
 
@@ -12,7 +12,7 @@ dev.off()
 svg(file = "paris_barchart.svg", width = 11, height = 8.5)
 
 ggplot(data=property_counts, aes(x=properties, y=owners)) +
-  geom_bar(colour="dark blue", fill="dark blue", width=0.8,stat="identity") +
+  geom_bar( color="LightGreen", fill="Gray", width=0.8,stat="identity") +
   xlab("Numbers of Properties Owned") + ylab("Numbers of Owners") +
   ggtitle("The Total Numbers of AirBnB Rental Properties Owned in Paris")
 
@@ -21,7 +21,7 @@ dev.off()
 png(file = "paris_barchart.png", width = 800, height = 600)
 
 ggplot(data=property_counts, aes(x=properties, y=owners)) +
-  geom_bar(colour="dark blue", fill="dark blue", width=0.8,stat="identity") +
+  geom_bar(color="LightGreen", fill="Gray", width=0.8,stat="identity") +
   xlab("Numbers of Properties Owned") + ylab("Numbers of Owners") +
   ggtitle("The Total Numbers of AirBnB Rental Properties Owned in Paris")
 
