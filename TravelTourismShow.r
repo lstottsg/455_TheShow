@@ -16,7 +16,8 @@ setwd("C:/Users/lstottsg/Desktop/Laura School/Winter 2017/Show Data Files")
 Paris_L <- read.csv("Paris Listings.csv", encoding = "UTF-8")
 Paris_R <- read.csv("Paris Reviews.csv", encoding = "UTF-8")
 ParisHousingIndex <- read.csv("Paris Housing Index.csv")
-
+ParisHousingIndex_Adj <- read.csv("Paris Housing Index_adj.csv")
+ParisReview_Short <- read.csv("ParisReviews_Short.csv", encoding = "UTF-8")
 #########################################################################################
 #VISUALIZATION #1: Review Text Word Frequency Bar Chart
 #########################################################################################
@@ -62,6 +63,10 @@ ParisReviews <- removeWords(ParisReviews,c("ã", "ì", "ñ", "ðñ", "ì", "ðð
 #what languages are these???
 textcat(c("ã", "ì", "ñ", "ðñ", "ì", "ððñ", "æ", "ñ",
           "ë", "ð", "å", "í", "el", "ê", "é"))
+
+#can we see percent reviews per language?
+class(ParisReview_Short)
+languages <- as.data.frame(textcat(ParisReview_Short$comments))
 
 #translate some frequent words
 ParisReviews <- gsub("trãs", "back", ParisReviews)
@@ -202,17 +207,31 @@ dev.off()
 #y-axis = price
 #x-axis = minimum nights
 #category = neighborhood group
+attach(Paris_L.eda)
+plot.df <- data.frame(minimum_nights, room_type, price)
+detach(Paris_L.eda)
+attach(plot.df)
 
-visalength <- Paris_L.eda[ which(minimum_nights>=90 ), ] #no rentals with a min of 90 nights (visa requirments)
-longterm <- Paris_L.eda[ which(minimum_nights<90 & minimum_nights>=30), ]
-midterm <- Paris_L.eda[ which(minimum_nights<30 & minimum_nights>=20), ]
-shortterm <- Paris_L.eda[ which(minimum_nights<20 & minimum_nights>=4), ]
-quicktrip <- Paris_L.eda[ which(minimum_nights<4 ), ]
+visalength <- plot.df[ which(minimum_nights>=90 ), ] #no rentals with a min of 90 nights (visa requirments)
+longterm <- plot.df[ which(minimum_nights<90 & minimum_nights>=30), ]
+midterm <- plot.df[ which(minimum_nights<30 & minimum_nights>=20), ]
+shortterm <- plot.df[ which(minimum_nights<20 & minimum_nights>=4), ]
+quicktrip <- plot.df[ which(minimum_nights<4 ), ]
+detach(plot.df)
+#this gives us NA values for all missing minimum_night prices (convert minimum_nights and room_type to factor to retrieve levels)
+longterm.ex <- cbind(expand.grid(minimum_nights=levels(as.factor(longterm$minimum_nights)), room_type=levels(longterm$room_type), price=0))
+midterm.ex <- cbind(expand.grid(minimum_nights=levels(as.factor(midterm$minimum_nights)), room_type=levels(midterm$room_type), price=NA))
+shortterm.ex <- cbind(expand.grid(minimum_nights=levels(as.factor(shortterm$minimum_nights)), room_type=levels(shortterm$room_type), price=NA))
+
+#now add rows for all NA values to hold space in dodged bar chart
+longterm.plot <- rbind(longterm, longterm.ex)
+midterm.plot <- rbind(midterm, midterm.ex)
+shortterm.plot <- rbind(shortterm, shortterm.ex)
 
 #Quick Trip Rental
 pdf(file = "Paris Quick Trip Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
 ggplot.quicktrip <- ggplot(quicktrip, aes( x = minimum_nights, y = price, fill = room_type )) + 
-  geom_bar( position = "dodge", stat = "identity") +
+  geom_bar( position = "dodge", stat = "identity", width = 0.8, alpha=.25) +
   ggtitle("Price by Room Type: Quick Trips Allowed\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night USD") +
@@ -223,7 +242,7 @@ dev.off()
 svg(file = "Paris Quick Trip Rental Price by Room Type.svg",width = 7, height = 7, pointsize = 12,
     bg = "white")
 ggplot.quicktrip <- ggplot(quicktrip, aes( x = minimum_nights, y = price, fill = room_type )) + 
-  geom_bar( position = "dodge", stat = "identity") +
+  geom_bar( position = "dodge", stat = "identity", width = 0.8, alpha=.25) +
   ggtitle("Price by Room Type: Quick Trips Allowed\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night USD") +
@@ -233,8 +252,8 @@ dev.off()
 
 #Short Term Rental
 pdf(file = "Paris Short Term Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
-ggplot.shortterm <- ggplot(shortterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
-  geom_bar( position = "dodge", stat = "identity") +
+ggplot.shortterm <- ggplot(shortterm.plot, aes( x = minimum_nights, y = price, fill = room_type )) + 
+  geom_bar( position = "dodge", stat = "identity", width=.8, alpha=.25) +
   ggtitle("Price by Room Type: Short Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night USD") +
@@ -244,61 +263,58 @@ dev.off()
 
 svg(file = "Paris Short Term Rental Price by Room Type.svg",width = 7, height = 7, pointsize = 12,
     bg = "white")
-ggplot.shortterm <- ggplot(shortterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
-  geom_bar( position = "dodge", stat = "identity") +
+ggplot.shortterm <- ggplot(shortterm.plot, aes( x = reorder(minimum_nights, as.integer(minimum_nights)), y = price, fill = room_type )) + 
+  geom_bar( position = "dodge", width = 0.8, stat = "identity", alpha=.25) +
   ggtitle("Price by Room Type: Short Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night USD") +
-  scale_fill_discrete(name = "Room Type")
+  scale_fill_discrete(name = "Room Type") +
+  scale_x_discrete()
 print(ggplot.shortterm)
 dev.off()
 
 #Midterm Rental
 pdf(file = "Paris Medium Term Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
-ggplot.midterm <- ggplot(midterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
-  geom_bar( position = "dodge", stat = "identity") +
+ggplot.midterm <- ggplot(midterm.plot, aes( x = minimum_nights, y = price, fill = room_type )) + 
+  geom_bar( position = "dodge", stat = "identity", width=.8, alpha=.25) +
   ggtitle("Price by Room Type: Medium Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night USD") +
-  scale_fill_discrete(name = "Room Type") +
-  scale_x_continuous(breaks = 20:30)
+  scale_fill_discrete(name = "Room Type") 
 print(ggplot.midterm)
 dev.off()
 
 svg(file = "Paris Medium Term Rental Price by Room Type.svg",width = 7, height = 7, pointsize = 12,
     bg = "white")
-ggplot.midterm <- ggplot(midterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
-  geom_bar( position = "dodge", stat = "identity") +
+ggplot.midterm <- ggplot(midterm.plot, aes( x = minimum_nights, y = price, fill = room_type )) + 
+  geom_bar( position = "dodge", width = 0.8, stat = "identity", alpha=.25) +
   ggtitle("Price by Room Type: Medium Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night USD") +
-  scale_fill_discrete(name = "Room Type") +
-  scale_x_continuous(breaks = 20:30)
+  scale_fill_discrete(name = "Room Type") 
 print(ggplot.midterm)
 dev.off()
 
 #Longterm Rental
 pdf(file = "Paris Long Term Rental Price by Room Type.pdf", width = 8.5, height = 8.5) 
-ggplot.longterm <- ggplot(longterm, aes( x = minimum_nights, y = price, fill = room_type, width=.9 )) + 
-  geom_bar( position = position_dodge(width = .8), width = 0.7, stat = "identity") +
+ggplot.longterm <- ggplot(longterm.plot, aes( x = minimum_nights, y = price, fill = room_type, width=.9 )) + 
+  geom_bar( position = "dodge", width = 0.8, stat = "identity", alpha=.25) +
   ggtitle("Price by Room Type: Longer Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night USD") +
-  scale_fill_discrete(name = "Room Type") +
-  scale_x_continuous(breaks = c(30,40,50,60,70,80,90))
+  scale_fill_discrete(name = "Room Type") 
 print(ggplot.longterm)
 dev.off()
 
 
 svg(file = "Paris Long Term Rental Price by Room Type.svg",width = 7, height = 7, pointsize = 12,
     bg = "white")
-ggplot.longterm <- ggplot(longterm, aes( x = minimum_nights, y = price, fill = room_type )) + 
-  geom_bar( position = "dodge", stat = "identity") +
+ggplot.longterm <- ggplot(longterm.plot, aes( x = minimum_nights, y = price, fill = room_type )) + 
+  geom_bar( position = "dodge", stat = "identity", alpha=.25) +
   ggtitle("Price by Room Type: Longer Term Rentals\n") +
   xlab("\nMinimum Nights") +
   ylab("Price per Night USD") +
-  scale_fill_discrete(name = "Room Type") +
-  scale_x_continuous(breaks = c(30,40,50,60,70,80,90))
+  scale_fill_discrete(name = "Room Type") 
 print(ggplot.longterm)
 dev.off()
 
@@ -313,8 +329,36 @@ library(reshape)
 library(grid)
 library(scales)
 
-ParisHI.eda <- ParisHousingIndex
+ParisHI.eda <- ParisHousingIndex[1,]
+rownames(ParisHI.eda) <- c("ParisFlats")
+
 summary(ParisHI.eda)
+
+#remove the 'X' from the year in the colname
+colnames(ParisHI.eda) <- gsub('X', '', colnames(ParisHI.eda))
+
+ParisHI.t <- setNames(data.frame(t(ParisHI.eda[,-1])),ParisHI.eda[,1])
+
+ParisHI.ts <- ts(ParisHI.t$`Paris - Flats`, start=c(2006), end=c(2016),frequency = 4)
+ParisHI.xts <- as.xts(ParisHI.ts)
+
+chartSeries(ParisHI.xts,theme="white", major.ticks="years", minor.ticks=FALSE, show.grid=FALSE, line.type="l", title="Paris Housing Index")
+
+# plot series using standard R graphics 
+plot(ParisHI.ts,main="Paris Housing Index - Flats 2006 to 2016", col="blue", xlab="Year", ylab="Index Level")
+
+# plot series using ggplot 
+
+ParisHI.df <- as.data.frame(ParisHousingIndex_Adj)
+class(ParisHI.df)
+
+paris.index <- ggplot(ParisHI.df, aes(Quarter,IndexLevelAdj)) + 
+  geom_line() +
+  ggtitle("Paris Housing Index: 2006 to 2016\n") +
+  xlab("\nQuarter") +
+  ylab("Index Level - Adjusted for Inflation")
+
+print(paris.index)  
 
 #########################################################################################
 #VISUALIZATION #5: Dotplot
