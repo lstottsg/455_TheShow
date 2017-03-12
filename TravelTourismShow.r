@@ -55,21 +55,23 @@ ParisReviews <- removeWords(ParisReviews,c("paris","apartment", "appartement", "
 #remove general descriptive words not having to do with city/community
 ParisReviews <- removeWords(ParisReviews,c("comfortable", "perfect", "easy", "stay", "nice", "made",
                                            "good", "great", "recommend", "excellent", "wonderful", "lovely", "bien", "can",
-                                           "get", "just", "definitely", "even", "trÃ¨s", "us")) 
+                                           "get", "just", "definitely", "even", "très", "us")) 
 #remove non-descript words or possible codes
-ParisReviews <- removeWords(ParisReviews,c("Ã£", "Ã¬", "Ã±", "Ã°Ã±", "Ã¬", "Ã°Ã°Ã±", "Ã¦", "Ã±",
-                                           "Ã«", "Ã°", "Ã¥", "Ã­", "el", "Ãª", "Ã©")) 
+ParisReviews <- removeWords(ParisReviews,c("ã", "ì", "ñ", "ðñ", "ì", "ððñ", "æ", "ñ",
+                                           "ë", "ð", "å", "í", "el", "ê", "é")) 
 
 #what languages are these???
-textcat(c("Ã£", "Ã¬", "Ã±", "Ã°Ã±", "Ã¬", "Ã°Ã°Ã±", "Ã¦", "Ã±",
-          "Ã«", "Ã°", "Ã¥", "Ã­", "el", "Ãª", "Ã©"))
+textcat(c("ã", "ì", "ñ", "ðñ", "ì", "ððñ", "æ", "ñ",
+          "ë", "ð", "å", "í", "el", "ê", "é"))
 
 #can we see percent reviews per language?
 class(ParisReview_Short)
 languages <- as.data.frame(textcat(ParisReview_Short$comments))
+unique_lang <- unique(languages)
+summary(languages)
 
 #translate some frequent words
-ParisReviews <- gsub("trÃ£s", "back", ParisReviews)
+ParisReviews <- gsub("trãs", "back", ParisReviews)
 ParisReviews <- gsub("lokal", "local", ParisReviews)
 ParisReviews <- gsub("located", "location", ParisReviews)
 
@@ -374,6 +376,25 @@ print(lattice.pxbyloc)
 #VISUALIZATION #7: Pie Chart (making same look as Erin's)
 #########################################################################################
 property_counts <- read.csv("paris_listed3.csv", header=TRUE, sep=",", as.is=TRUE)
+
+summary(languages)
+
+gg_color_hue <- function(n) {
+  hues = seq(15, 375, length = n + 1)
+  hcl(h = hues, l = 65, c = 100)[1:n]
+}
+
+slices <- c(275558, 124200, 92925, 28531, 23359, 119026) 
+lbls <- c("English", "French", "Scots", "Catalan", "Afrikaans", "Other")
+pct <- round(slices/sum(slices)*100)
+lbls <- paste(lbls, pct)
+lbls <- paste(lbls,"%",sep="")
+lines(c(1.45, 1.45, 1.45, 1.85, 1.35, 1.35))
+
+svg(file = "Paris Review Language Pie Chart.svg",
+    bg = "white")
+pie(slices,labels = lbls, clockwise=TRUE, col=adjustcolor(gg_color_hue(length(lbls)),alpha.f = .4),main="Paris AirBnB Number of Reviews by Language", radius=1.4)
+dev.off()
 
 listingIds <- length(unique(Paris_L$id))
 listingIds
